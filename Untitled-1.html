@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Una Galaxia de Amor - مجرة الحب</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { overflow: hidden; background-color: #020005; font-family: 'Segoe UI', Tahoma, sans-serif; color: #fff; }
+    #canvas-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; }
+
+    /* بطاقة الدخول الرئيسية */
+    .ui-card {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      background: rgba(15, 5, 25, 0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 105, 180, 0.4);
+      border-radius: 24px;
+      padding: 35px; text-align: center;
+      max-width: 400px; width: 85%;
+      box-shadow: 0 0 40px rgba(255, 20, 147, 0.35);
+      transition: all 0.8s ease;
+    }
+    .ui-card.hidden { opacity: 0; transform: translate(-50%, -40%) scale(0.85); pointer-events: none; }
+    .ui-card h1 { font-size: 1.8rem; margin-bottom: 12px; color: #ff80df; text-shadow: 0 0 10px rgba(255,0,128,0.5); }
+    .ui-card p { font-size: 0.95rem; color: #ddbbee; margin-bottom: 25px; line-height: 1.5; }
+    
+    .btn {
+      background: linear-gradient(135deg, #ff007f, #7928ca);
+      border: none; color: white; padding: 12px 28px;
+      border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
+      transition: all 0.3s ease;
+    }
+    .btn:hover { transform: scale(1.08); box-shadow: 0 0 30px rgba(255, 0, 127, 0.9); }
+
+    /* كرت التفاصيل عند الضغط على كوكب/كلمة */
+    .modal-card {
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      z-index: 20;
+      background: rgba(20, 5, 30, 0.85);
+      backdrop-filter: blur(15px);
+      border: 1px solid #ff66cc;
+      border-radius: 20px;
+      padding: 20px 30px; text-align: center;
+      min-width: 280px; opacity: 0; pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 30px rgba(255, 102, 204, 0.4);
+    }
+    .modal-card.active { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+    .modal-card h2 { color: #ff66cc; font-size: 1.4rem; margin-bottom: 6px; }
+    .modal-card p { font-size: 0.9rem; color: #eee; margin-bottom: 12px; }
+    .modal-card .lang-tag { display: inline-block; padding: 3px 10px; border-radius: 12px; background: rgba(255,255,255,0.1); font-size: 0.75rem; color: #ffb3e6; margin-bottom: 8px; }
+
+    .audio-btn {
+      position: absolute; top: 20px; right: 20px; z-index: 30;
+      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: white; border-radius: 50%; width: 44px; height: 44px;
+      cursor: pointer; backdrop-filter: blur(5px); font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ملف الصوت للموسيقى -->
+  <audio id="bg-music" src="music.mp3" loop></audio>
+
+  <div id="canvas-container"></div>
+
+  <button class="audio-btn" id="audio-control-btn" onclick="toggleAudio()" title="تشغيل/إيقاف الموسيقى">🎵</button>
+
+  <!-- الواجهة الأولى -->
+  <div class="ui-card" id="start-card">
+    <h1>مجرة من الحب لأجلك ✨</h1>
+    <p>رحلة بين كواكب العشق بكل لغات العالم 💖<br>اضغطي على الزر للدخول لكوننا الخاص</p>
+    <button class="btn" onclick="enterGalaxy()">استكشاف المجرة 🚀</button>
+  </div>
+
+  <!-- البطاقة التفاعلية -->
+  <div class="modal-card" id="detail-card">
+    <span class="lang-tag" id="card-lang">ITALIANO</span>
+    <h2 id="card-title">Sei Il Mio Universo</h2>
+    <p id="card-desc">أنتِ كوكبي الخاص وعالمي بأكمله ✨</p>
+    <button class="btn" style="padding: 6px 18px; font-size: 0.85rem;" onclick="resetCamera()">العودة للمجرة 🔄</button>
+  </div>
+
+  <!-- المكتبات الخارجية -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  
+  <!-- ربط ملف الجافاسكريبت -->
+  <script src="script.js"></script>
+</body>
+</html>
